@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sumadora Básica</title>
+    <title>Sumadora</title>
     <link rel="stylesheet" href="./style.css" />
   </head>
 
   <body>
     <main class="app">
       <h1>Sumadora</h1>
-      <p class="muted">Introduce dos números y pulsa “Sumar”.</p>
+      <p class="muted">Introduix dos numeros.</p>
 
       <section class="card">
         <label class="field">
@@ -25,20 +25,16 @@
 
         <div class="actions">
           <button id="sumBtn" type="button">Sumar</button>
-          <button id="clearBtn" type="button" class="ghost">Limpiar</button>
+          <button id="clearBtn" type="button" class="ghost">Borrar</button>
         </div>
 
         <div class="result">
-          <span class="muted">Resultado</span>
+          <span class="muted">Resultat</span>
           <output id="result">—</output>
         </div>
 
         <p id="error" class="error" aria-live="polite"></p>
       </section>
-
-      <footer class="muted">
-        <small>Tip: acepta decimales con punto (.) o coma (,).</small>
-      </footer>
     </main>
 
     <script src="./app.js"></script>
