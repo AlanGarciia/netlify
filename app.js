@@ -1,86 +1,58 @@
-// 1. Configuració de Firebase (SUBSTITUEIX AIXÒ PEL TEU)
-const firebaseConfig = {
-  apiKey: "EL_TEURE_API_KEY",
-  authDomain: "EL_TEURE_PROJECT_ID.firebaseapp.com",
-  projectId: "EL_TEURE_PROJECT_ID",
-  storageBucket: "EL_TEURE_PROJECT_ID.appspot.com",
-  messagingSenderId: "EL_TEURE_SENDER_ID",
-  appId: "EL_TEURE_APP_ID"
-};
+const $a = document.getElementById("a");
+const $b = document.getElementById("b");
+const $result = document.getElementById("result");
+const $error = document.getElementById("error");
 
-// Inicialitzar Firebase
-firebase.initializeApp(firebaseConfig);
+const $sumBtn = document.getElementById("sumBtn");
+const $clearBtn = document.getElementById("clearBtn");
 
-// Obtenir referència a Firestore
-const db = firebase.firestore();
+// Convierte texto a número aceptando coma o punto
+function parseNumber(value) {
+  const normalized = value.trim().replace(",", ".");
+  if (normalized === "") return null;
 
-// Referència a la col·lecció de tasques
-const tasquesRef = db.collection("tasques");
+  const n = Number(normalized);
+  return Number.isFinite(n) ? n : null;
+}
 
-// Elements del DOM
-const formTasca = document.getElementById("form-tasca");
-const inputTasca = document.getElementById("input-tasca");
-const llistaTasques = document.getElementById("llista-tasques");
+function setError(msg) {
+  $error.textContent = msg || "";
+}
 
-// 2. Afegir una tasca nova
-formTasca.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const text = inputTasca.value.trim();
-  if (!text) return;
+function sum() {
+  setError("");
 
-  try {
-    await tasquesRef.add({
-      text: text,
-      completada: false,
-      creatEl: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    inputTasca.value = "";
-  } catch (error) {
-    console.error("Error afegint tasca:", error);
+  const a = parseNumber($a.value);
+  const b = parseNumber($b.value);
+
+  if (a === null || b === null) {
+    $result.textContent = "—";
+    setError("Pon dos números válidos (ej: 10, 2.5).");
+    return;
   }
-});
 
-// 3. Escoltar els canvis en temps real
-tasquesRef
-  .orderBy("creatEl", "asc")
-  .onSnapshot((snapshot) => {
-    llistaTasques.innerHTML = "";
+  const total = a + b;
+  // evita mostrar 0.30000000000000004 y similares
+  $result.textContent = Number.isInteger(total) ? String(total) : String(+total.toFixed(10));
+}
 
-    snapshot.forEach((doc) => {
-      const tasca = doc.data();
-      const li = document.createElement("li");
-      li.classList.add("tasca");
-      if (tasca.completada) {
-        li.classList.add("tasca-completada");
-      }
+function clearAll() {
+  $a.value = "";
+  $b.value = "";
+  $result.textContent = "—";
+  setError("");
+  $a.focus();
+}
 
-      // Checkbox per marcar completada
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = !!tasca.completada;
-      checkbox.addEventListener("change", () => {
-        tasquesRef.doc(doc.id).update({
-          completada: checkbox.checked
-        });
-      });
+$sumBtn.addEventListener("click", sum);
+$clearBtn.addEventListener("click", clearAll);
 
-      // Text de la tasca
-      const span = document.createElement("span");
-      span.textContent = tasca.text;
-
-      // Botó eliminar
-      const botoEliminar = document.createElement("button");
-      botoEliminar.textContent = "Esborrar";
-      botoEliminar.classList.add("boto-eliminar");
-      botoEliminar.addEventListener("click", () => {
-        tasquesRef.doc(doc.id).delete().catch((error) => {
-          console.error("Error esborrant tasca:", error);
-        });
-      });
-
-      li.appendChild(checkbox);
-      li.appendChild(span);
-      li.appendChild(botoEliminar);
-      llistaTasques.appendChild(li);
-    });
+// Enter para sumar desde cualquier input
+[$a, $b].forEach((el) => {
+  el.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      sum();
+    }
   });
+});

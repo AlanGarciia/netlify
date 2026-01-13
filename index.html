@@ -1,33 +1,46 @@
-<!DOCTYPE html>
-<html lang="ca">
-<head>
-  <meta charset="UTF-8">
-  <title>Llista de tasques (Firebase + Netlify)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sumadora Básica</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
 
-  <link rel="stylesheet" href="style.css">
+  <body>
+    <main class="app">
+      <h1>Sumadora</h1>
+      <p class="muted">Introduce dos números y pulsa “Sumar”.</p>
 
-  <!-- Firebase SDK (v9 mòduls compat) -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore-compat.js"></script>
-</head>
-<body>
-  <div class="container">
-    <h1>Llista de tasques</h1>
+      <section class="card">
+        <label class="field">
+          <span>Número 1</span>
+          <input id="a" type="text" inputmode="decimal" placeholder="Ej: 12.5" />
+        </label>
 
-    <form id="form-tasca">
-      <input type="text" id="input-tasca" placeholder="Afegeix una tasca..." autocomplete="off" required>
-      <button type="submit">Afegir</button>
-    </form>
+        <label class="field">
+          <span>Número 2</span>
+          <input id="b" type="text" inputmode="decimal" placeholder="Ej: 3" />
+        </label>
 
-    <ul id="llista-tasques"></ul>
+        <div class="actions">
+          <button id="sumBtn" type="button">Sumar</button>
+          <button id="clearBtn" type="button" class="ghost">Limpiar</button>
+        </div>
 
-    <p class="info">
-      Les tasques es guarden a Firebase Firestore.
-    </p>
-  </div>
+        <div class="result">
+          <span class="muted">Resultado</span>
+          <output id="result">—</output>
+        </div>
 
-  <script src="app.js"></script>
-</body>
+        <p id="error" class="error" aria-live="polite"></p>
+      </section>
+
+      <footer class="muted">
+        <small>Tip: acepta decimales con punto (.) o coma (,).</small>
+      </footer>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
 </html>
-
