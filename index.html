@@ -15,12 +15,12 @@
       <section class="card">
         <label class="field">
           <span>Numero 1</span>
-          <input id="a" type="text" inputmode="decimal"/>
+          <input id="a" type="text" inputmode="decimal" placeholder="Ej: 12.5" />
         </label>
 
         <label class="field">
           <span>Numero 2</span>
-          <input id="b" type="text" inputmode="decimal"/>
+          <input id="b" type="text" inputmode="decimal" placeholder="Ej: 3" />
         </label>
 
         <div class="actions">
@@ -34,9 +34,15 @@
         </div>
 
         <p id="error" class="error" aria-live="polite"></p>
+
+        <hr style="margin:16px 0; border:0; border-top:1px solid rgba(255,255,255,.12);" />
+
+        <h3 style="margin:0 0 8px;">Últimas operaciones</h3>
+        <ul id="history" style="margin:0; padding-left:18px;" aria-live="polite"></ul>
       </section>
     </main>
 
-    <script src="./app.js"></script>
+    <!-- IMPORTANTE: para que funcionen los imports de Firebase -->
+    <script type="module" src="./app.js"></script>
   </body>
 </html>
